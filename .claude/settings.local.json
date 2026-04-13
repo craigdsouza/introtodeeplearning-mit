@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wsl --version)",
+      "Bash(wsl -e bash -c \"echo WSL available\")",
+      "Bash(wsl:*)",
+      "Bash(xargs file:*)",
+      "Bash(mkdir -p \"/c/Users/CRAIG-DSOUZA/Code/c++/projects/hello_map\")",
+      "Bash(mv \"/c/Users/CRAIG-DSOUZA/Code/c++/hello_map.cpp\" \"/c/Users/CRAIG-DSOUZA/Code/c++/projects/hello_map/\")",
+      "Bash(mv \"/c/Users/CRAIG-DSOUZA/Code/c++/Makefile\" \"/c/Users/CRAIG-DSOUZA/Code/c++/projects/hello_map/\")",
+      "Bash(mv \"/c/Users/CRAIG-DSOUZA/Code/c++/hello_map\" \"/c/Users/CRAIG-DSOUZA/Code/c++/projects/hello_map/\")",
+      "Bash(mv \"/c/Users/CRAIG-DSOUZA/Code/c++/output.txt\" \"/c/Users/CRAIG-DSOUZA/Code/c++/projects/hello_map/\")",
+      "Bash(printf 'CXX = g++\\\\nCXXFLAGS = -std=c++17 -Wall -Wextra\\\\n\\\\nSRCS = $\\(wildcard *.cpp\\)\\\\nTARGETS = $\\(SRCS:.cpp=\\)\\\\n\\\\nall: $\\(TARGETS\\)\\\\n\\\\n%%: %%.cpp\\\\n\\\\t$\\(CXX\\) $\\(CXXFLAGS\\) -o $@ $<\\\\n\\\\nclean:\\\\n\\\\trm -f $\\(TARGETS\\)\\\\n\\\\n.PHONY: all clean\\\\n')",
+      "Bash(\"C:\\\\Users\\\\CRAIG-DSOUZA\\\\Code\\\\c++\\\\projects\\\\004_stl_containers\\\\Makefile\")",
+      "Bash(\"C:\\\\Users\\\\CRAIG-DSOUZA\\\\Code\\\\c++\\\\projects\\\\004_stl_containers\\\\Makefile\":*)",
+      "Bash(\"C:\\\\Users\\\\CRAIG-DSOUZA\\\\Code\\\\c++\\\\projects\\\\004_stl_containers\\\\004_stl_containers_quiz.md\":*)",
+      "Bash(cat C:/Users/CRAIG-DSOUZA/Code/introtodeeplearning-mit/.claude/commands/*.md)"
+    ]
+  }
+}
