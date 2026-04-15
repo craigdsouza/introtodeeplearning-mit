@@ -120,10 +120,20 @@ After writing the concepts file(s), reference them explicitly at the top of the 
 ## Step 5 — Write the exercises file
 
 **Before writing:** Check if `WNN_exercises.md` already exists in the week folder.
-- If it exists: read it, check whether the Active Recall Warm-Up and Repeat Exercises sections are present and match the carry-forward items from Step 2. Add or update those sections only — do not delete or recreate the file.
+- If it exists: read it, check whether Repeat Exercises sections are present and match the carry-forward items from Step 2. Add or update those sections only — do not delete or recreate the file.
 - If it does not exist: create it.
 
 File path: `weeks/WNN_topic/WNN_exercises.md`.
+
+**Important — Active Recall Warm-Up placement:** Carried-over review questions go in the **quiz file only** (Step 6). Do NOT add an Active Recall Warm-Up section to the exercises file. The exercises file references the quiz file for warm-up questions with a single line: *"Before starting: answer the warm-up questions in `WNN_topic_quiz.md`."*
+
+**Important — Exercise scaffolding rules:**
+- **Exercises 1–4:** May include scaffolding, but scaffolding must be written as **comments that hint at what to write**, not as working code. Examples: `# define your model class here`, `# implement the forward pass — what shape is the input?`, `# set up your loss function and optimizer`. Do not provide working implementations. The student writes all functional code themselves.
+- **Exercise 5 — Integration (mandatory):** Must be the most demanding exercise. Requirements:
+  - Integrates the week's concepts from all four prior exercises into a single, non-trivial program
+  - **No scaffold provided** — no comments hinting at steps, no partial code, no class stubs. Just a spec describing what the program must do, what data it operates on, and what correct output looks like
+  - The student writes everything from scratch
+  - Should reflect a realistic AV/mapping or DL deployment scenario — e.g., a training loop + evaluation + visualization pipeline, or a model that operates on AV-relevant data
 
 Structure:
 
@@ -132,9 +142,7 @@ Structure:
 
 **Goal:** [One sentence — what the student will be able to do after this week, tied to the NVIDIA DRIVE Mapping context]
 
-## Active Recall Warm-Up
-[Only if there are carried-over questions from Step 2. Label each with its source week.
-Direct the student to write answers in the previous week's answers file before reading on.]
+> Before starting: answer the warm-up questions in `WNN_topic_quiz.md`.
 
 ---
 
@@ -145,18 +153,25 @@ Connect to the NVIDIA DRIVE / mapping domain concretely — e.g., how CNNs under
 
 ## Exercise 1 — [Name]
 **File:** Create `weeks/WNN_topic/filename.py` (new file) OR work in `filename.ipynb` (notebook).
-[Clear task. Include a code scaffold where helpful — e.g., class stubs, data loading boilerplate.]
+[Clear task. Hints as comments only — no working code provided.]
 **What to observe:** [Connect the output or behavior to the broader concept and career relevance]
 
 ## Exercise 2 — [Name]
-**File:** Update `filename.py` (add to existing file) OR Create `filename2.py` — whichever fits.
+**File:** Update or create as appropriate.
+[Comment-hints only. No working implementations.]
 ...
 
 ## Exercise 3 — [Name]
-**File:** Update `filename.py` OR Create `filename3.py` — whichever fits.
 ...
 
-[Add Exercise 4 and 5 if the topic warrants it]
+## Exercise 4 — [Name]
+...
+
+## Exercise 5 — Integration
+**File:** Create `weeks/WNN_topic/integration.py` (new file).
+**No scaffold provided.** Write this program from scratch.
+
+[Spec only — describe what the program must do, what data it uses, and what correct output looks like. No hints, no partial code, no step-by-step structure. Must combine all four prior concepts in a non-trivial way. Should feel like a realistic mini-project, not just another exercise.]
 
 [If there are repeat exercises from Step 2, add a clearly labeled section:]
 ## Repeat Exercises (from Week X)

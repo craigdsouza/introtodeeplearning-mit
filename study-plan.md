@@ -24,6 +24,7 @@ Before Week 1, verify your local environment is ready:
 ---
 
 ## Week 1 (Apr 7–13): Foundations — The Perceptron to Neural Networks
+> **AV Track: Essential** — Everything downstream (CNNs, transformers, training pipelines) builds on this. No skipping.
 
 **Lecture:** L1 — Introduction to Deep Learning (review, already completed)
 **Hours:** ~8 hrs
@@ -53,6 +54,7 @@ Before Week 1, verify your local environment is ready:
 ---
 
 ## Week 2 (Apr 14–20): Deep Sequence Modeling — RNNs to Transformers
+> **AV Track: Essential** — Transformers are directly needed for C++ Portfolio Project 8 (Trajectory Prediction). Self-attention on agent history + map context is the architecture you'll train. Do not skim.
 
 **Lecture:** L2 — Deep Sequence Modeling (Ava Amini)
 **Hours:** ~9 hrs
@@ -81,6 +83,7 @@ Before Week 1, verify your local environment is ready:
 ---
 
 ## Week 3 (Apr 21–27): Deep Computer Vision — CNNs
+> **AV Track: Essential** — CNNs are the backbone of C++ Portfolio Project 4 (Perception Pipeline). You'll fine-tune a CNN-based object detector on KITTI/nuScenes. Understanding convolutions, feature hierarchies, and ResNet is required, not optional.
 
 **Lecture:** L3 — Deep Computer Vision (Alexander Amini)
 **Hours:** ~9 hrs
@@ -111,6 +114,7 @@ Before Week 1, verify your local environment is ready:
 ---
 
 ## Week 4 (Apr 28 – May 4): Deep Generative Modeling — VAEs, GANs, Diffusion
+> **AV Track: Optional — skim theory, skip implementations if behind schedule.** Generative models are not part of the current C++ portfolio project stack. Good general DL literacy, but no AV project depends on it. Read the theory in 1–2 hrs and move on. Come back to implementations later if time permits.
 
 **Lecture:** L4 — Deep Generative Modeling (Ava Amini)
 **Hours:** ~9 hrs
@@ -140,6 +144,7 @@ Before Week 1, verify your local environment is ready:
 ---
 
 ## Week 5 (May 5–11): Deep Reinforcement Learning
+> **AV Track: Optional — skim theory, skip DQN implementation if behind schedule.** RL is useful conceptual context for AV planning, but NVIDIA DRIVE uses classical motion planning (not pure RL) for vehicle control. No C++ portfolio project depends on this. Watch the lecture for intuition, skip CartPole if time is tight.
 
 **Lecture:** L5 — Deep Reinforcement Learning (Alexander Amini)
 **Hours:** ~9 hrs
@@ -172,6 +177,9 @@ Before Week 1, verify your local environment is ready:
 
 **Lectures:** L6 — Limitations & New Frontiers, plus L8 — Massively Parallel Training
 **Hours:** ~10 hrs
+> **L8 (Massively Parallel Training): Essential** — Directly relevant to NVIDIA's GPU infrastructure. Data parallelism, model parallelism, and distributed training are things you'll encounter in any NVIDIA role. Don't skip.
+>
+> **L6 (Limitations + LLM Fine-tuning / Lab 3): Optional for AV track.** Good general awareness, but fine-tuning Gemma for mystery stories is not AV-relevant. Do Lab 3 quickly for the fine-tuning mechanics, don't go deep on it.
 
 ### Theory (3 hrs)
 
@@ -197,6 +205,7 @@ Before Week 1, verify your local environment is ready:
 ---
 
 ## Week 7 (May 19–25): Portfolio Project 1 — Geospatial + Deep Learning
+> **AV Track: Optional — superseded by C++ Portfolio Projects 1 and 6.** The geospatial domain signal this project provides is already delivered by C++ Project 1 (OSM road graph) and Project 6 (map-based localization), which are stronger AV artifacts. If you're on schedule with C++ projects, skip this. If you have spare weekend time after Week 7, it's a worthwhile addition for breadth.
 
 **Project:** Apply DL to satellite/aerial imagery — leverages your geospatial domain expertise
 **Hours:** ~10 hrs
@@ -217,6 +226,7 @@ Before Week 1, verify your local environment is ready:
 ---
 
 ## Week 8 (May 26 – Jun 1): Portfolio Project 2 — Computer Vision for Autonomous Vehicles
+> **AV Track: Essential — this IS the Python training side of C++ Portfolio Project 4 (Perception Pipeline).** Do not treat these as two separate projects. The PyTorch training pipeline you build here (YOLO/KITTI) feeds directly into the C++ inference runtime in Project 4. Build them together as one integrated project in `autonomous-stack-projects/004_perception_pipeline/`.
 
 **Project:** Object detection or semantic segmentation on driving data
 **Hours:** ~10 hrs
@@ -237,6 +247,7 @@ Before Week 1, verify your local environment is ready:
 ---
 
 ## Week 9 (Jun 2–8): Portfolio Project 3 — LLM Application for Mapping/GIS
+> **AV Track: Optional — lowest AV priority of the three DL portfolio projects.** LLM applications for GIS are interesting but not central to the NVIDIA DRIVE Mapping role or the C++ portfolio project stack. Defer unless the June 1 C++ project goals are already met and you have spare capacity. If you do this, Option B (RAG over OSM/HD map specs) is the most AV-relevant choice.
 
 **Project:** Fine-tune or prompt-engineer an LLM for a geospatial/mapping task
 **Hours:** ~10 hrs
