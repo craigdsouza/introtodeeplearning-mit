@@ -59,6 +59,7 @@ for epoch in range(10000):
     W2 = W2 - lr * dw2
     b2 = b2 - lr * db2
 
+    # toughest part
     dz1 = (a2 - y) @ W2.T * sigmoid_deriv(a1)   # (4,4) * (4,4) = (4,4)
     dW1 = X.T @ dz1                             # (2,4) & (4,4) = (2,4) - same as W1
     db1 = np.mean(dz1,axis=0)                   # (4,) - Same shape as b1

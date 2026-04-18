@@ -43,9 +43,9 @@ J(W) = (1/n) * Σ L(yᵢ, ŷᵢ)
 ```
 
 - `L` is a per-sample loss (e.g. binary cross-entropy: `-y log(ŷ) - (1-y) log(1-ŷ)`)
-    - only one term at a time is used , because of the terms y and (1-y), in a binary classification problem, both can't be non zero simultaneously.
-    - thus the BCE is the "negative log-likelihood of a Bernoulli distribution"
-    - the Binary Cross Entropy formula penalizes confidently wrong predictions exponentially more than somewhat uncertain predictions. If truth is 1 and prediction is 0.4, that's bad. However if prediction is 0.01 that's much worse. 
+  - only one term at a time is used , because of the terms y and (1-y), in a binary classification problem, both can't be non zero simultaneously.
+  - thus the BCE is the "negative log-likelihood of a Bernoulli distribution"
+  - the Binary Cross Entropy formula penalizes confidently wrong predictions exponentially more than somewhat uncertain predictions. If truth is 1 and prediction is 0.4, that's bad. However if prediction is 0.01 that's much worse.
 - `J(W)` is the average loss over all training examples — the number we want to minimise
 
 ### Gradient Descent
@@ -87,13 +87,13 @@ dσ/dz = σ(z) · (1 - σ(z))
 1. Rewrite as `(1 + e⁻ᶻ)⁻¹`
 2. Power rule: `-1 · (1 + e⁻ᶻ)⁻²`
 3. Chain rule — multiply by derivative of inner function `(1 + e⁻ᶻ)`:
-   - derivative of `1` is `0`
-   - derivative of `e⁻ᶻ` is `-e⁻ᶻ` (chain rule again: derivative of `e^u` is `e^u`, times derivative of `-z` which is `-1`)
+  - derivative of `1` is `0`
+  - derivative of `e⁻ᶻ` is `-e⁻ᶻ` (chain rule again: derivative of `e^u` is `e^u`, times derivative of `-z` which is `-1`)
 4. Full result: `-1 · (1 + e⁻ᶻ)⁻² · (-e⁻ᶻ)` = `e⁻ᶻ / (1 + e⁻ᶻ)²`
 5. Split the fraction: `1/(1 + e⁻ᶻ) · e⁻ᶻ/(1 + e⁻ᶻ)`
 6. First part is `σ(z)`. For the second part, rewrite `e⁻ᶻ` as `(1 + e⁻ᶻ) - 1`:
-   `(1 + e⁻ᶻ - 1) / (1 + e⁻ᶻ)` = `1 - 1/(1 + e⁻ᶻ)` = `1 - σ(z)`
-7. Final: **`σ(z) · (1 - σ(z))`**
+  `(1 + e⁻ᶻ - 1) / (1 + e⁻ᶻ)` = `1 - 1/(1 + e⁻ᶻ)` = `1 - σ(z)`
+7. Final: `**σ(z) · (1 - σ(z))`**
 
 This is convenient because during backprop you already have `σ(z)` (the activation output) — no need to store `z` separately.
 
@@ -116,13 +116,15 @@ Chain:    ∂L/∂w = ∂L/∂ŷ · ∂ŷ/∂z · ∂z/∂w
 
 Each partial derivative in the chain:
 
-| Term | What it means | Formula | With sigmoid + BCE |
-|------|--------------|---------|-------------------|
-| `∂L/∂ŷ` | How sensitive is loss to the prediction? | `-y/ŷ + (1-y)/(1-ŷ)` | |
-| `∂ŷ/∂z` | How sensitive is sigmoid output to its input? | `ŷ(1-ŷ)` | |
-| `∂L/∂ŷ · ∂ŷ/∂z` | **Combined: these simplify** | | **`ŷ - y`** |
-| `∂z/∂w` | How sensitive is linear output to weights? | `X` | |
-| `∂z/∂b` | How sensitive is linear output to bias? | `1` | |
+
+| Term            | What it means                                 | Formula              | With sigmoid + BCE |
+| --------------- | --------------------------------------------- | -------------------- | ------------------ |
+| `∂L/∂ŷ`         | How sensitive is loss to the prediction?      | `-y/ŷ + (1-y)/(1-ŷ)` |                    |
+| `∂ŷ/∂z`         | How sensitive is sigmoid output to its input? | `ŷ(1-ŷ)`             |                    |
+| `∂L/∂ŷ · ∂ŷ/∂z` | **Combined: these simplify**                  |                      | `**ŷ - y`**        |
+| `∂z/∂w`         | How sensitive is linear output to weights?    | `X`                  |                    |
+| `∂z/∂b`         | How sensitive is linear output to bias?       | `1`                  |                    |
+
 
 The sigmoid + BCE combination simplifies beautifully: `∂L/∂z = ŷ - y`. This is why the gradient code is so clean:
 
@@ -176,12 +178,14 @@ db1 = mean(dz1, axis=0)
 
 Start with what you know:
 
-| Variable | Shape | Why |
-|----------|-------|-----|
-| `X` | (samples, inputs) = (4, 2) | 4 samples, 2 features |
-| `W1` | (inputs, hidden) = (2, 4) | 2 inputs → 4 hidden neurons |
-| `W2` | (hidden, outputs) = (4, 1) | 4 hidden → 1 output |
-| `a2 - y` | (4, 1) | error per sample |
+
+| Variable | Shape                      | Why                         |
+| -------- | -------------------------- | --------------------------- |
+| `X`      | (samples, inputs) = (4, 2) | 4 samples, 2 features       |
+| `W1`     | (inputs, hidden) = (2, 4)  | 2 inputs → 4 hidden neurons |
+| `W2`     | (hidden, outputs) = (4, 1) | 4 hidden → 1 output         |
+| `a2 - y` | (4, 1)                     | error per sample            |
+
 
 **Step-by-step shape derivation for dW1:**
 
@@ -206,6 +210,7 @@ Goal: dW2 must be shape (4, 1) — same as W2
 ```
 
 **The pattern:** To compute `dW` for any layer:
+
 - Left side: transpose the **input** to that layer (puts samples dimension in the right place)
 - Right side: the **error at that layer's output** (accumulated from all layers above)
 
@@ -522,5 +527,6 @@ Before opening the exercises, answer these mentally:
 
 The eps = 1e-8 in your code (line 107) prevents log(0) which would be -infinity — a defensive trick for numerical stability. PyTorch's BCEWithLogitsLoss handles this automatically by fusing the sigmoid and BCE into a single numerically stable operation.
 ```
-5. What is the negative log-likelihood of a Bernoulli distribution?
+
+1. What is the negative log-likelihood of a Bernoulli distribution?
 
