@@ -10,29 +10,75 @@ TensorFlow's GPU support on native Windows was dropped after TF 2.10. Since you 
 
 ### Option A — WSL2 (recommended, GPU support)
 
-Open your WSL2 terminal and activate (or create) a venv there:
+Open your WSL2 terminal. The venv lives inside the project folder but is created from Linux, so it has a `bin/` layout (not `Scripts/`) — it cannot be shared with the Windows venv.
 
 ```bash
-# Inside WSL2
+# Step 1 — install venv support (Ubuntu ships Python without it)
 sudo apt install python3.12-venv -y
+
+# Step 2 — create a Linux venv alongside the Windows one
 python3 -m venv .venv-wsl
 source .venv-wsl/bin/activate
-pip install tensorflow[and-cuda]
+
+# Step 3 — install TF (large download ~2GB, use higher timeout to avoid mid-download failures)
+pip install tensorflow[and-cuda] --timeout 300
 ```
 
-`tensorflow[and-cuda]` installs TF plus the matching CUDA/cuDNN libraries automatically — no separate CUDA install needed inside WSL.
+`tensorflow[and-cuda]` installs TF plus CUDA/cuDNN as pip packages under `.venv-wsl/lib/python3.12/site-packages/nvidia/` — no separate CUDA install needed inside WSL.
 
-**Verify GPU is detected:**
-```python
-import tensorflow as tf
-print(tf.config.list_physical_devices('GPU'))
+**Step 4 — fix LD_LIBRARY_PATH (required — TF can't find its own CUDA libs without this)**
+
+The pip-installed CUDA libraries aren't on the system path by default. Add them:
+
+```bash
+export LD_LIBRARY_PATH=$(find .venv-wsl/lib/python3.12/site-packages/nvidia -name "lib" -type d | tr '\n' ':'):/usr/lib/wsl/lib/:$LD_LIBRARY_PATH
+```
+
+Make it permanent. First load your repo path from `.env`, then append to `.bashrc`:
+
+```bash
+# Load REPO_ROOT from .env
+export $(grep -v '^#' .env | xargs)
+
+echo "export LD_LIBRARY_PATH=\$(find $REPO_ROOT/.venv-wsl/lib/python3.12/site-packages/nvidia -name \"lib\" -type d | tr '\n' ':'):/usr/lib/wsl/lib/:\$LD_LIBRARY_PATH" >> ~/.bashrc
+```
+
+`REPO_ROOT` is defined in `.env` (gitignored). Copy `.env.example` to `.env` and set it to your local repo path if setting up on a new machine.
+
+Verify the line was written correctly (`-type d` must be present):
+```bash
+tail -3 ~/.bashrc
+```
+
+If `-type d` is missing, fix with: `sed -i '$ s/-type /-type d /' ~/.bashrc`
+
+**Step 5 — verify GPU is detected:**
+```bash
+source ~/.bashrc
+source .venv-wsl/bin/activate   # re-activate — sourcing .bashrc deactivates the venv
+python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
 # Should return: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
 ```
 
 **Notes for WSL2 GPU passthrough:**
 - Requires Windows 11 or Windows 10 21H2+ (you're on Windows 11 — you're fine)
 - NVIDIA driver must be installed on the **Windows** side only — do not install a Linux driver inside WSL
-- WSL2 exposes the GPU to Linux automatically via the driver installed on Windows
+- WSL2 exposes the GPU to Linux automatically via the Windows driver
+- `libcuda.so.1` comes from `/usr/lib/wsl/lib/` (Windows driver); the rest (cudart, cublas, cudnn, cufft) come from the pip-installed nvidia-* packages
+- `source ~/.bashrc` will deactivate your venv — always re-run `source .venv-wsl/bin/activate` after it
+
+**Diagnostic — if GPU still not detected:**
+```python
+import ctypes
+libs = ['libcuda.so.1', 'libcudart.so.12', 'libcublas.so.12', 'libcudnn.so.9', 'libcufft.so.11']
+for lib in libs:
+    try:
+        ctypes.CDLL(lib)
+        print(f'OK: {lib}')
+    except OSError as e:
+        print(f'MISSING: {lib} — {e}')
+```
+Any `MISSING` line means that library's directory isn't on `LD_LIBRARY_PATH`.
 
 ### Option B — Native Windows (CPU only, simpler)
 
