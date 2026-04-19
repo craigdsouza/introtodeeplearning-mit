@@ -34,9 +34,17 @@ print(torch.cuda.is_available())      # True
 print(torch.cuda.get_device_name(0))  # NVIDIA GeForce RTX 4050 ...
 ```
 
+**Activating the venv (PowerShell):**
+```powershell
+# From the repo root
+.venv\Scripts\activate
+
+# To deactivate
+deactivate
+```
+
 **Notes:**
 - Download is ~2GB, takes a few minutes
-- Must be run with your venv active: `.venv\Scripts\activate`
 - The package name is `torch`, not `pytorch` — `pip install pytorch` will fail
 
 ---

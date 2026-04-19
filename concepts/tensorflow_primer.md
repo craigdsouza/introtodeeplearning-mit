@@ -80,6 +80,17 @@ for lib in libs:
 ```
 Any `MISSING` line means that library's directory isn't on `LD_LIBRARY_PATH`.
 
+**Activating the venv (every WSL session):**
+```bash
+# From the repo root inside WSL
+source .venv-wsl/bin/activate
+
+# To deactivate
+deactivate
+```
+
+Note: `source ~/.bashrc` deactivates the venv — always re-run the activate command after it.
+
 ### Option B — Native Windows (CPU only, simpler)
 
 If you don't want to use WSL for Week 1 exercises (AND/OR/XOR datasets are tiny — CPU is fast enough):
@@ -107,6 +118,38 @@ print(tf.config.list_physical_devices('GPU'))  # returns [] on CPU build — exp
 | Week 3+ (CNNs) | Required | Too slow |
 
 For Week 1, either works. Set up WSL properly before Week 3.
+
+### WSL2 Performance: Windows vs Linux Filesystem
+
+Running TF scripts from `/mnt/c/...` (the Windows filesystem mounted in WSL) is significantly slower than running from the native Linux filesystem. The cause: every Python object write and Keras history callback goes through WSL2's 9P filesystem bridge to Windows. With 5000 training epochs this overhead accumulates to minutes, even on a 4-sample dataset.
+
+**Observed impact:** AND gate, 5000 epochs, 4 samples — ~4 min on `/mnt/c/`, seconds on native Linux.
+
+**Option 1 — Copy repo to Linux filesystem for training runs:**
+```bash
+# Copy once
+cp -r /mnt/c/Users/YOUR_USERNAME/Code/introtodeeplearning-mit ~/introtodeeplearning-mit
+
+# Work from Linux path
+cd ~/introtodeeplearning-mit
+source .venv-wsl/bin/activate
+python weeks/W01_perceptron/perceptron_tf.py
+```
+
+**Option 2 — Reduce epochs during development:**
+
+Use 500 epochs to verify correctness, then 5000 for final runs. Results are the same — convergence behaviour is visible at 500.
+
+**Tradeoffs:**
+
+| | `/mnt/c/` (Windows path) | `~/` (Linux path) |
+|---|---|---|
+| Edit files in Cursor/VS Code | Yes — directly | No — need to sync back |
+| TF training speed | Slow (9P bridge overhead) | Fast (native filesystem) |
+| Git commits | From PowerShell or WSL | From WSL only |
+| Best for | Editing, PyTorch (Windows venv) | TF training runs |
+
+**Practical workflow:** edit in Cursor on the Windows path, copy to `~/` for heavy TF training runs, sync results back with `cp` or by working in the Linux path directly using VS Code's WSL extension.
 
 ---
 
